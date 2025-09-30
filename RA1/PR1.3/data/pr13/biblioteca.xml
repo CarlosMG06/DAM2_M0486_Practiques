@@ -1,0 +1,11 @@
+<biblioteca>
+    <llibre id="001">
+        <titol>El viatge dels venturons</titol>
+        <autor>Joan Pla</autor>
+        <anyPublicacio>1998</anyPublicacio>
+        <editorial>Edicions Mar</editorial>
+        <genere>Aventura</genere>
+        <pagines>320</pagines>
+        <disponible>true</disponible>
+    </llibre>
+</biblioteca>

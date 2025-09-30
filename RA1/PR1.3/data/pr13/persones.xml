@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persones>
+    <persona>
+        <nom>Maria</nom>
+        <cognom>López</cognom>
+        <edat>36</edat>
+        <ciutat>Barcelona</ciutat>
+    </persona>
+    <persona>
+        <nom>Gustavo</nom>
+        <cognom>Catadasús</cognom>
+        <edat>15</edat>
+        <ciutat>London</ciutat>
+    </persona>
+    <persona>
+        <nom>Irene</nom>
+        <cognom>Rocheford</cognom>
+        <edat>45</edat>
+        <ciutat>Tokio</ciutat>
+    </persona>
+    <persona>
+        <nom>Armengol</nom>
+        <cognom>Pastor</cognom>
+        <edat>72</edat>
+        <ciutat>Abidjan</ciutat>
+    </persona>
+</persones>

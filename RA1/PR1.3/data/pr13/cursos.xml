@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cursos>
+   <curs id="AMS2">
+       <tutor>LARA,Francesc</tutor>
+       <alumnes>
+           <alumne>ALVAREZ, Tomas</alumne>
+           <alumne>CAMACHO, David</alumne>
+           <alumne>CASTRO, Joaquin</alumne>
+           <alumne>DE LA CRUZ, Sergio</alumne>
+           <alumne>DIAZ, Jose</alumne>
+           <alumne>DIAZ, Salvador</alumne>
+           <alumne>FERNANDEZ, Jose M</alumne>
+           <alumne>FERNANDEZ, Jose C</alumne>
+           <alumne>FERRANDIZ, Carlos</alumne>
+           <alumne>GALLEGO, Ivan</alumne>
+           <alumne>GARCIA, Daniel</alumne>
+           <alumne>GOMEZ, Adrian</alumne>
+           <alumne>GUTIERREZ, David</alumne>
+           <alumne>HERRERO, David</alumne>
+           <alumne>LLOBET, Marius</alumne>
+           <alumne>MARTIN, Joan</alumne>
+           <alumne>MARTINEZ, Ivan</alumne>
+           <alumne>MARTINEZ, Isaac</alumne>
+           <alumne>RIBAS, Albert</alumne>
+           <alumne>RODRIGUEZ, Alex</alumne>
+           <alumne>SANCHEZ, Jose</alumne>
+           <alumne>SANCHEZ, Eric</alumne>
+       </alumnes>
+       <moduls>
+           <modul id="M06">
+               <titol>Acces a dades</titol>
+               <profes>
+                   <profe>FUENTES, Julian</profe>
+               </profes>
+               <ufs>
+                   <uf n="1">Persistencia en fitxers</uf>
+                   <uf n="2">Persistencia en BDR-BDOR-BDOO</uf>
+                   <uf n="3">Persistencia en BD natives XML</uf>
+                   <uf n="4">Components d'acces a dades</uf>
+               </ufs>
+           </modul>
+       </moduls>
+   </curs>
+   <curs id="AWS1">
+       <tutor>Julian Fuentes</tutor>
+       <alumnes>
+           <alumne>ABDELILLAH, Hicham</alumne>
+           <alumne>FERNANDEZ, Ruben</alumne>
+           <alumne>GARBETA, Giulio</alumne>
+           <alumne>GARCIA, Miguel</alumne>
+           <alumne>GARCIA, Elmer</alumne>
+           <alumne>GONZALEZ, Victor M</alumne>
+           <alumne>JANSSEN, Gerard</alumne>
+           <alumne>LLOPART, Sergi</alumne>
+           <alumne>LOPEZ, Carlos</alumne>
+           <alumne>MALAGA, Pierre</alumne>
+           <alumne>MARTINEZ, Marc</alumne>
+           <alumne>ORTEGA, Marc</alumne>
+           <alumne>PELAEZ, Eva</alumne>
+           <alumne>PEREZ, Sara</alumne>
+           <alumne>RICO, Abel</alumne>
+           <alumne>SANCHEZ, Eduard</alumne>
+           <alumne>TROLLANO, Raul</alumne>
+           <alumne>VAZQUEZ, Albert</alumne>
+       </alumnes>
+       <moduls>
+           <modul id="M01">
+               <titol>Sistemes informatics</titol>
+                   <profes>
+                   <profe>FUENTES, Julian</profe>
+                   <profe>MESTRE, Manu</profe>
+               </profes>
+               <ufs>
+                   <uf n="1">Instal.lacio, configuracio i explotacio d'un SI</uf>
+                   <uf n="2">Gestio de la informacio i de recursos en una xarxa</uf>
+                   <uf n="3">Implantacio de programari especific</uf>
+               </ufs>
+           </modul>
+           <modul id="M04">
+               <titol>Llenguatge de marques i SSGGdI</titol>
+               <profes>
+                   <profe>FUENTES, Julian</profe>
+                   <profe>VILAPLANA, Angel</profe>
+               </profes>
+               <ufs>
+                   <uf n="1">Programacio amb XML</uf>
+                   <uf n="2">Ambits d'aplicacio de XML</uf>
+                   <uf n="3">Sistemes de gestio empresarial</uf>
+               </ufs>
+           </modul>
+           <modul id="M05">
+               <titol>Entorns de desenvolupament</titol>
+               <profes>
+                   <profe>FUENTES, Julian</profe>
+                   <profe>VILAPLANA, Angel</profe>
+               </profes>
+               <ufs>
+                   <uf n="1">Desenvolupament de programari</uf>
+                   <uf n="2">Optimitzacio de programari</uf>
+                   <uf n="3">Introduccio al disseny orientat a objectes</uf>
+               </ufs>
+           </modul>
+       </moduls>
+   </curs>
+</cursos>
+

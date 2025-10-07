@@ -1,0 +1,15 @@
+{
+    "nom": "Joan Garcia",
+    "edat": 34,
+    "ocupacio": "Enginyer",
+    "correu": "joan.garcia@example.com",
+    "direccio": {
+        "carrer": "Carrer de l'Example",
+        "ciutat": "Barcelona",
+        "codi_postal": "08001"
+    },
+    "telefon": [
+        {"tipus": "casa", "numero": "934567890"},
+        {"tipus": "mòbil", "numero": "612345678"}
+    ]
+}

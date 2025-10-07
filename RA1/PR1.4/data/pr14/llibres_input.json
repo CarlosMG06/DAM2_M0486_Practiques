@@ -1,0 +1,5 @@
+[
+    {"id": 1, "titol": "Els vents del nord", "autor": "Clara Rojas", "any": 1990},
+    {"id": 2, "titol": "Muntanyes màgiques", "autor": "Joan Peris", "any": 2005},
+    {"id": 3, "titol": "El secret del mar", "autor": "Laura Vidal", "any": 2010}
+]

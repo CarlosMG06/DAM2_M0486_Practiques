@@ -1,8 +1,11 @@
 package com.project.pr13;
 
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Text;
 
+import javax.print.DocFlavor;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.*;
@@ -93,7 +96,55 @@ public class PR131Main {
      */
     private static Document construirDocument() {
         // *************** CODI PRÀCTICA **********************/
-       return null; // Substitueix pel teu
+        try {
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document doc = db.newDocument();
+            
+            Element elemBib = doc.createElement("biblioteca");
+            doc.appendChild(elemBib);
+            
+            Element elemLli = doc.createElement("llibre");
+            elemBib.appendChild(elemLli);
+            
+            Attr attrId = doc.createAttribute("id");
+            attrId.setValue("001");
+            elemLli.setAttributeNode(attrId);
+
+            Element elemTit = doc.createElement("titol");
+            elemLli.appendChild(elemTit);
+            Element elemAut = doc.createElement("autor");
+            elemLli.appendChild(elemAut);
+            Element elemAny = doc.createElement("anyPublicacio");
+            elemLli.appendChild(elemAny);
+            Element elemEdi = doc.createElement("editorial");
+            elemLli.appendChild(elemEdi);
+            Element elemGen = doc.createElement("genere");
+            elemLli.appendChild(elemGen);
+            Element elemPag = doc.createElement("pagines");
+            elemLli.appendChild(elemPag);
+            Element elemDis = doc.createElement("disponible");
+            elemLli.appendChild(elemDis);
+
+            Text textTit = doc.createTextNode("El viatge dels venturons");
+            elemTit.appendChild(textTit);
+            Text textAut = doc.createTextNode("Joan Pla");
+            elemAut.appendChild(textAut);
+            Text textAny = doc.createTextNode("1998");
+            elemAny.appendChild(textAny);
+            Text textEdi = doc.createTextNode("Edicions Mar");
+            elemEdi.appendChild(textEdi);
+            Text textGen = doc.createTextNode("Aventura");
+            elemGen.appendChild(textGen);
+            Text textPag = doc.createTextNode("320");
+            elemPag.appendChild(textPag);
+            Text textDis = doc.createTextNode("true");
+            elemDis.appendChild(textDis);
+
+            return doc;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     /**
@@ -104,5 +155,18 @@ public class PR131Main {
      */
     private static void guardarDocument(Document doc, File fitxerSortida) {
         // *************** CODI PRÀCTICA **********************/
+        try {
+            TransformerFactory tf = TransformerFactory.newInstance();
+            Transformer transformer = tf.newTransformer();
+            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(fitxerSortida);
+
+            transformer.transform(source, result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -66,6 +66,14 @@ public class PR130Main {
      */
     public static Document parseXML(File inputFile) {
         // *************** CODI PRÀCTICA **********************/
-        return null; // Substitueix pel teu        
+        try {
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document doc = db.parse(inputFile);
+            return doc;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

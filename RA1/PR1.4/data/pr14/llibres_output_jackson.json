@@ -1,0 +1,16 @@
+[ {
+  "id" : 1,
+  "titol" : "Els vents del nord",
+  "autor" : "Clara Rojas",
+  "any" : 1995
+}, {
+  "id" : 3,
+  "titol" : "El secret del mar",
+  "autor" : "Laura Vidal",
+  "any" : 2010
+}, {
+  "id" : 4,
+  "titol" : "Històries de la ciutat",
+  "autor" : "Miquel Soler",
+  "any" : 2022
+} ]

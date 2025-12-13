@@ -18,7 +18,6 @@ public class UtilsSQLite {
         String url = "jdbc:sqlite:" + filePath;
         Connection conn = DriverManager.getConnection(url);
         
-        // S'ha substituït System.out.println per logger.info
         logger.info("BBDD SQLite connectada a {}", filePath);
         DatabaseMetaData meta = conn.getMetaData();
         logger.info("BBDD driver: {}", meta.getDriverName());
@@ -30,9 +29,8 @@ public class UtilsSQLite {
         if (conn != null) {
             try {
                 conn.close();
-                logger.info("DDBB SQLite desconnectada");
+                logger.info("BBDD SQLite desconnectada");
             } catch (SQLException e) {
-                // S'ha substituït System.err.println per logger.error
                 logger.error("Error en tancar la connexió: {}", e.getMessage());
             }
         }

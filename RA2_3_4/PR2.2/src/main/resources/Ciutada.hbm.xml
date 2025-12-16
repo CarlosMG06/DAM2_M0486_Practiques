@@ -1,0 +1,16 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+   <class name = "com.project.Ciutada" table = "Ciutada">
+        <id name = "ciutadaId" type = "long" column = "ciutadaId">
+            <generator class="native"/>
+        </id>
+
+        <property name = "nom" column = "nom" type = "string"/>
+        <property name = "cognom" column = "cognom" type = "string"/>
+        <property name = "edat" column = "edat" type = "int"/>
+        <many-to-one name="ciutat" class="com.project.Ciutat">
+            <column name="ciutatId" not-null="false" />
+        </many-to-one>  
+    </class>
+</hibernate-mapping>

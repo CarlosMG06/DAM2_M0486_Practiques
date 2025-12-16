@@ -78,13 +78,13 @@ public class Ciutat implements Serializable {
         
         if (ciutadans != null && !ciutadans.isEmpty()) {
             llistaCiutadans = ciutadans.stream()
-                .map(Ciutada::getNom)
-                .collect(Collectors.joining(", ", "[", "]"));
+                .map(ciutada -> ciutada.getNom() + " " + ciutada.getCognom())
+                .collect(Collectors.joining(" | ", "[", "]"));
         }
 
-        return String.format("Ciutat [ID=%d, Nom=%s, Pais=%s, Poblacio=%d, Ciutadans: %s]", ciutatId, nom, pais, poblacio, llistaCiutadans);
+        return String.format("%d: %s (%s), Població: %d, Ciutadans: %s", ciutatId, nom, pais, poblacio, llistaCiutadans);
     }
-    
+
     // EQUALS i HASHCODE basats en UUID:
     // Garanteix consistència abans i després de persistir l'entitat.
     @Override

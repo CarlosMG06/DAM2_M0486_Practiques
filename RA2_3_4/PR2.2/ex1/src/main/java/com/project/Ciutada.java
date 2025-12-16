@@ -54,7 +54,7 @@ public class Ciutada implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("Ciutada [ID=%d, Nom=%s, Cognom=%s, Edat=%d]", ciutadaId, nom, cognom, edat);
+        return String.format("%d: %s %s (%d anys)", ciutadaId, nom, cognom, edat);
     }
 
     // EQUALS amb instanceof (no getClass()):

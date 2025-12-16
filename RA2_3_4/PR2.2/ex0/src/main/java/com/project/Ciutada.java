@@ -1,6 +1,9 @@
 package com.project;
 
-public class Ciutada {
+import java.io.Serializable;
+import java.util.Objects;
+
+public class Ciutada implements Serializable {
     private long ciutadaId;
     private String nom;
     private String cognom;
@@ -31,5 +34,23 @@ public class Ciutada {
     public Ciutat getCiutat() { return ciutat; }
     public void setCiutat(Ciutat ciutat) { this.ciutat = ciutat; }
 
+    @Override
+    public String toString() {
+        return String.format("Ciutada [ID=%d, Nom=%s, Cognom=%s, Edat=%d]", ciutadaId, nom, cognom, edat);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ciutada ciutada = (Ciutada) o;
+        if (ciutadaId == 0 || ciutada.ciutadaId == 0) return this == ciutada;
+        return ciutadaId == ciutada.ciutadaId;
+    }
+
+    @Override
+    public int hashCode() {
+        return (ciutadaId > 0) ? Objects.hash(ciutadaId) : super.hashCode();
+    }    
 
 }

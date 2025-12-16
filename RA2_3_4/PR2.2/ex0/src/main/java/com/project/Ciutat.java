@@ -2,7 +2,9 @@ package com.project;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Ciutat implements Serializable {
     private long ciutatId;
@@ -55,5 +57,32 @@ public class Ciutat implements Serializable {
             ciutada.setCiutat(null);
         }
     }
+
+    @Override
+    public String toString() {
+        String llistaCiutadans = "[]";
+        
+        if (ciutadans != null && !ciutadans.isEmpty()) {
+            llistaCiutadans = ciutadans.stream()
+                .map(Ciutada::getNom)
+                .collect(Collectors.joining(", ", "[", "]"));
+        }
+
+        return String.format("Ciutat [ID=%d, Nom=%s, Pais=%s, Poblacio=%d, Ciutadans: %s]", ciutatId, nom, pais, poblacio, llistaCiutadans);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ciutat ciutat = (Ciutat) o;
+        if (ciutatId == 0 || ciutat.ciutatId == 0) return this == ciutat;
+        return ciutatId == ciutat.ciutatId;
+    }
+
+    @Override
+    public int hashCode() {
+        return (ciutatId > 0) ? Objects.hash(ciutatId) : super.hashCode();
+    }    
 
 }

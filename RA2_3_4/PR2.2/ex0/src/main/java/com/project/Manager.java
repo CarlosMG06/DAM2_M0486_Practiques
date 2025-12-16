@@ -1,7 +1,11 @@
 package com.project;
 
-import java.util.HashSet;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.hibernate.Hibernate;
 import org.hibernate.Session; 
@@ -14,7 +18,7 @@ public class Manager {
 
     private static SessionFactory factory;
 
-    public void createSessionFactory() {
+    public static void createSessionFactory() {
         try {
             factory = new Configuration().configure().buildSessionFactory();
         } catch (Throwable ex) { 
@@ -23,7 +27,7 @@ public class Manager {
         }
     }
 
-    public void close() {
+    public static void close() {
         if (factory != null) factory.close();
     }
 
@@ -52,22 +56,22 @@ public class Manager {
         }
     }
 
-    public void addCiutat(String nom, String pais, int poblacio) {
+    public static Ciutat addCiutat(String nom, String pais, int poblacio) {
         return executeInTransactionWithResult(session -> {
-            Ciutat ciutat = new Ciutat(type);
+            Ciutat ciutat = new Ciutat(nom, pais, poblacio);
             session.persist(ciutat);
             return ciutat;
         });
     }
-    public void addCiutada(String nom, String cognom, int edat) {
+    public static Ciutada addCiutada(String nom, String cognom, int edat) {
         return executeInTransactionWithResult(session -> {
-            Ciutada ciutada = new Ciutada(type);
+            Ciutada ciutada = new Ciutada(nom, cognom, edat);
             session.persist(ciutada);
             return ciutada;
         });
     }
 
-    public void updateCiutat(long ciutatId, String nom, String pais, int poblacio, Set<Ciutada> newCiutadans) {
+    public static void updateCiutat(long ciutatId, String nom, String pais, int poblacio, Set<Ciutada> newCiutadans) {
         executeInTransaction(session -> {
             Ciutat ciutat = session.get(Ciutat.class, ciutatId);
             if (ciutat == null) return;
@@ -96,7 +100,7 @@ public class Manager {
             session.merge(ciutat);
         });
     }
-    public void updateCiutada(int ciutadaId, String nom, String cognom, int edat) {
+    public static void updateCiutada(long ciutadaId, String nom, String cognom, int edat) {
         executeInTransaction(session -> {
             Ciutada ciutada = session.get(Ciutada.class, ciutadaId);
             if (ciutada != null) {
@@ -108,7 +112,7 @@ public class Manager {
         });
     }
 
-    public Ciutat getCiutatWithCiutadans(int ciutatId) {
+    public static Ciutat getCiutatWithCiutadans(long ciutatId) {
         return executeInTransactionWithResult(session -> {
             Ciutat ciutat = session.get(Ciutat.class, ciutatId);
             if (ciutat != null) {
@@ -145,7 +149,7 @@ public class Manager {
         return listCollection(clazz, "");
     }
 
-    public static <T> String collectionToString(Collection<T> collection) {
+    public static <T> String collectionToString(Class<T> clazz, Collection<T> collection) {
         if (collection == null || collection.isEmpty()) return "[]";
         StringBuilder sb = new StringBuilder();
         for (T obj : collection) {

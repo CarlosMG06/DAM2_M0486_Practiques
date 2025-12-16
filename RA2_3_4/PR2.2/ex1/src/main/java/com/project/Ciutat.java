@@ -1,18 +1,34 @@
 package com.project;
 
+import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
+// @Entity: Marca aquesta classe com una entitat JPA mapejada a una taula de la BBDD.
+@Entity
+@Table(name = "ciutats")
 public class Ciutat implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name="ciutatId", unique=true, nullable=false)
     private long ciutatId;
+
     private String nom;
     private String pais;
     private int poblacio;
     
+    @OneToMany(mappedBy = "ciutat", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Ciutada> ciutadans = new HashSet<>();
+
+    // UUID: Identificador únic generat ABANS de guardar a la BBDD.
+    // Útil per equals/hashCode ja que cartId és null fins que es persisteix.
+    @Column(name = "uuid", nullable = false, updatable = false, unique = true)
+    private String uuid = UUID.randomUUID().toString();
 
     public Ciutat() {}
 
@@ -39,11 +55,9 @@ public class Ciutat implements Serializable {
         return ciutadans;
     }
     public void setCiutadans(Set<Ciutada> ciutadans) {
-        this.ciutadans = ciutadans;
-        if (this.ciutadans != null) {
-            for (Ciutada ciutada : this.ciutadans) {
-                ciutada.setCiutat(this);
-            }
+        this.ciutadans.clear();
+        if (ciutadans != null) {
+            ciutadans.forEach(this::addCiutada);
         }
     }
 
@@ -70,19 +84,20 @@ public class Ciutat implements Serializable {
 
         return String.format("Ciutat [ID=%d, Nom=%s, Pais=%s, Poblacio=%d, Ciutadans: %s]", ciutatId, nom, pais, poblacio, llistaCiutadans);
     }
-
+    
+    // EQUALS i HASHCODE basats en UUID:
+    // Garanteix consistència abans i després de persistir l'entitat.
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Ciutat)) return false;
         Ciutat ciutat = (Ciutat) o;
-        if (ciutatId == 0 || ciutat.ciutatId == 0) return this == ciutat;
-        return ciutatId == ciutat.ciutatId;
+        return Objects.equals(uuid, ciutat.uuid);
     }
 
     @Override
     public int hashCode() {
-        return (ciutatId > 0) ? Objects.hash(ciutatId) : super.hashCode();
+        return Objects.hash(uuid);
     }    
 
 }

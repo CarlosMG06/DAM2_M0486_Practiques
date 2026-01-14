@@ -13,7 +13,7 @@ public class Biblioteca implements Serializable {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="bibliotecaId", unique=true, nullable=false)
+    @Column(name="biblioteca_id", unique=true, nullable=false)
     private Long bibliotecaId;
 
     private String nom;

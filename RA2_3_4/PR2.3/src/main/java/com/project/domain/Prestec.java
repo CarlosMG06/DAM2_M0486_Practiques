@@ -12,13 +12,13 @@ public class Prestec implements Serializable {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="prestecId", unique=true, nullable=false)
+    @Column(name="prestec_id", unique=true, nullable=false)
     private Long prestecId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "exemplar_id")
     private Exemplar exemplar;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "persona_id")
     private Persona persona;
 

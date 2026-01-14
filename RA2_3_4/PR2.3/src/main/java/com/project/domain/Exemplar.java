@@ -13,19 +13,19 @@ public class Exemplar implements Serializable {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="exemplarId", unique=true, nullable=false)
+    @Column(name="exemplar_id", unique=true, nullable=false)
     private Long exemplarId;
 
-    @Column(name="codiBarres", unique=true, nullable=false)
+    @Column(name="codi_barres", unique=true, nullable=false)
     private String codiBarres;
 
     private boolean disponible;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "llibre_id")
     private Llibre llibre;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "biblioteca_id")
     private Biblioteca biblioteca;
 

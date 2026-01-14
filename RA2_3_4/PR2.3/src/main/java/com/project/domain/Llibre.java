@@ -13,7 +13,7 @@ public class Llibre implements Serializable {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="llibreId", unique=true, nullable=false)
+    @Column(name="llibre_id", unique=true, nullable=false)
     private Long llibreId;
 
     private String isbn;

@@ -13,7 +13,7 @@ public class Persona implements Serializable {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="personaId", unique=true, nullable=false)
+    @Column(name="persona_id", unique=true, nullable=false)
     private Long personaId;
 
     private String dni;

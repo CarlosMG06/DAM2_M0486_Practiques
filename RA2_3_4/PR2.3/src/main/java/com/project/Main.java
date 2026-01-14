@@ -51,7 +51,7 @@ public class Main {
         // Prerequisit: Les entitats Autor i Llibre han de tenir @Entity, @Id, @GeneratedValue
         // ---------------------------------------------------------
         
-        /*
+        
         System.out.println("\n=== FASE 1: Creació d'Autors i Llibres ===");
         
         // Creem dos autors
@@ -65,7 +65,7 @@ public class Main {
         // Comprovem que s'han creat correctament (no són null i tenen ID assignat)
         System.out.println("Autors creats: " + (a1 != null && a2 != null ? "OK" : "ERROR"));
         System.out.println("Llibres creats: " + (l1 != null && l2 != null ? "OK" : "ERROR"));
-        */
+        
 
         // ---------------------------------------------------------
         // FASE 2: RELACIONS MANY-TO-MANY (Autors <-> Llibres)
@@ -74,7 +74,7 @@ public class Main {
         // COMPTE: Recorda que Llibre és el costat propietari de la relació!
         // ---------------------------------------------------------
         
-        /*
+        
         System.out.println("\n=== FASE 2: Vinculació Autors-Llibres ===");
         
         // Assignem el llibre "1984" a l'autor George Orwell
@@ -92,7 +92,7 @@ public class Main {
             Manager.updateAutor(a2.getAutorId(), a2.getNom(), llibresRowling);
             System.out.println("Autor '" + a2.getNom() + "' vinculat al llibre '" + l2.getTitol() + "'");
         }
-        */
+        
 
         // ---------------------------------------------------------
         // FASE 3: INFRAESTRUCTURA (Biblioteca, Exemplar, Persona)
@@ -100,7 +100,7 @@ public class Main {
         // Prerequisit: Relacions @ManyToOne i @OneToMany configurades
         // ---------------------------------------------------------
         
-        /*
+        
         System.out.println("\n=== FASE 3: Infraestructura i Usuaris ===");
         
         // Creem una biblioteca
@@ -125,7 +125,7 @@ public class Main {
         // Mostrem tots els exemplars creats
         System.out.println("\n>> Llistat d'Exemplars a la base de dades:");
         System.out.println(Manager.collectionToString(Exemplar.class, Manager.listCollection(Exemplar.class)));
-        */
+        
 
         // ---------------------------------------------------------
         // FASE 4: LÒGICA DE PRÉSTECS
@@ -134,7 +134,7 @@ public class Main {
         // IMPORTANT: Inclou la lògica de negoci (comprovar disponibilitat)
         // ---------------------------------------------------------
         
-        /*
+        
         System.out.println("\n=== FASE 4: Préstecs i Retorns ===");
         LocalDate avui = LocalDate.now();
 
@@ -161,7 +161,7 @@ public class Main {
         // Mostrem l'estat final dels préstecs
         System.out.println("\n>> Estat final dels Préstecs:");
         System.out.println(Manager.collectionToString(Prestec.class, Manager.listCollection(Prestec.class)));
-        */
+        
 
         // ---------------------------------------------------------
         // FASE 5: CONSULTES HQL
@@ -169,7 +169,7 @@ public class Main {
         // Prerequisit: Totes les fases anteriors completades
         // ---------------------------------------------------------
         
-        /*
+        
         System.out.println("\n=== FASE 5: Consultes HQL ===");
         
         // Consulta A: Llibres amb els seus autors (usa JOIN FETCH i DISTINCT)
@@ -193,7 +193,7 @@ public class Main {
         System.out.println("\n--- C) Llibres i les seves Biblioteques ---");
         List<Object[]> llibresBiblio = Manager.findLlibresAmbBiblioteques();
         System.out.println(Manager.formatMultipleResult(llibresBiblio));
-        */
+        
 
         // ---------------------------------------------------------
         // TANCAMENT

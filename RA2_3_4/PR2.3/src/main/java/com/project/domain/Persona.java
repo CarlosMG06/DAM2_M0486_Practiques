@@ -5,12 +5,15 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-// TODO 1: @Entity
+@Entity
+@Table(name = "persona")
 public class Persona implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    // TODO 2: @Id
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name="personaId", unique=true, nullable=false)
     private Long personaId;
 
     private String dni;
@@ -18,7 +21,7 @@ public class Persona implements Serializable {
     private String telefon;
     private String email;
 
-    // TODO 3: @OneToMany cap a Prestec
+    @OneToMany(mappedBy = "persona", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Prestec> prestecs = new HashSet<>();
 
     public Persona() {}

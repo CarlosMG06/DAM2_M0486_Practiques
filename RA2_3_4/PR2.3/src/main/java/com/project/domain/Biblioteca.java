@@ -5,12 +5,15 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-// TODO 1: @Entity
+@Entity
+@Table(name = "biblioteca")
 public class Biblioteca implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    // TODO 2: @Id
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name="bibliotecaId", unique=true, nullable=false)
     private Long bibliotecaId;
 
     private String nom;
@@ -19,7 +22,7 @@ public class Biblioteca implements Serializable {
     private String telefon;
     private String email;
 
-    // TODO 3: @OneToMany cap a Exemplar
+    @OneToMany(mappedBy = "biblioteca", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Exemplar> exemplars = new HashSet<>();
 
     public Biblioteca() {}

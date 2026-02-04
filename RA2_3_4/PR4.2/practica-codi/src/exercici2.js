@@ -8,6 +8,7 @@ require('dotenv').config();
 const DATA_SUBFOLDER = 'steamreviews';
 const CSV_GAMES_FILE_NAME = 'games.csv';
 const CSV_REVIEWS_FILE_NAME = 'reviews.csv';
+const OUTPUT_FILE_NAME = 'exercici2_resposta.json'
 
 // Funció per llegir el CSV de forma asíncrona
 async function readCSV(filePath) {
@@ -94,6 +95,7 @@ async function main() {
         const games = await readCSV(gamesFilePath);
         const reviews = await readCSV(reviewsFilePath);
 
+        /*
         // Iterem pels jocs
         console.log('\n=== Llista de Jocs ===');
         for (const game of games) {
@@ -114,7 +116,63 @@ async function main() {
             console.log('------------------------');
         }
         console.log(`\nNOMÉS AVALUEM LES DUES PRIMERES REVIEWS`);
-     } catch (error) {
+        */
+
+        const firstTwoGames = games.slice(0,2);
+        const result = {
+            timestamp: new Date().toISOString(),
+            games: []
+        };
+
+        console.log('\n=== Estadístiques de les 2 primeres reviews per als 2 primers jocs ===');
+        for (const game of firstTwoGames) {
+            console.log(`\nProcessant joc: ${game.name} (${game.appid})`);
+
+            const gameReviews = reviews
+                .filter(review => review.app_id === game.appid)
+                .slice(0,2);
+
+            const statistics = {
+                positive: 0,
+                negative: 0,
+                neutral: 0,
+                error: 0
+            };
+
+            for (let i = 0; i < gameReviews.length; i++) {
+                const review = gameReviews[i];
+                console.log(`\n Analitzant review ${i+1} de ${gameReviews.length} (ID: ${review.id})`);
+
+                const sentiment = await analyzeSentiment(review.content);
+
+                if (sentiment === 'positive') {
+                    statistics.positive++;
+                } else if (sentiment === 'negative') {
+                    statistics.negative++;
+                } else if (sentiment === 'neutral') {
+                    statistics.neutral++;
+                } else {
+                    statistics.error++;
+                }
+                
+                console.log(`  Sentiment (Ollama): ${sentiment}`);
+            }
+            // Afegir estadístiques del joc al resultat
+            result.games.push({
+                appid: game.appid,
+                name: game.name,
+                statistics: statistics
+            });
+            console.log(`  Estadístiques finals:`, statistics)
+        }
+        const outputPath = path.join(__dirname, dataPath, OUTPUT_FILE_NAME);
+        const resultString = JSON.stringify(result,null,2);
+        fs.writeFileSync(outputPath, resultString);
+
+        console.log('\n=== Resultat Final ===');
+        console.log(resultString);
+        console.log(`\nResultat guardat a: ${outputPath}`);
+    } catch (error) {
         console.error('Error durant l\'execució:', error.message);
     }
 }

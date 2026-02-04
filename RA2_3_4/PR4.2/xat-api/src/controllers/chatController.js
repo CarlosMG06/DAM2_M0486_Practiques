@@ -201,6 +201,70 @@ const registerPrompt = async (req, res, next) => {
     }
 };
 
+// Exercici 4
+/**
+ * Registra una nova anàlisi de sentiment i genera una resposta
+ * @route POST /api/chat/sentiment-analysis
+ */
+const sentimentAnalysis = async (req, res, next) => {
+    try {
+        const { 
+            conversationId, 
+            text, 
+            model = DEFAULT_OLLAMA_MODEL, 
+            stream = false 
+        } = req.body;
+
+        logger.info('Nova sol·licitud d\'anàlisi de sentiment rebuda', {
+            hasConversationId: !!conversationId,
+            model,
+            stream,
+            textLength: text?.length
+        });
+
+        // Validacions inicials
+        if (!text?.trim()) {
+            logger.warn('Intent de registrar text buit');
+            return res.status(400).json({ message: 'El text és obligatori' });
+        }
+
+        // Gestió de la conversa
+        let conversation;
+        if (conversationId) {
+            if (!validateUUID(conversationId)) {
+                logger.warn('ID de conversa invàlid', { conversationId });
+                return res.status(400).json({ message: 'ID de conversa invàlid' });
+            }
+            
+            conversation = await Conversation.findByPk(conversationId);
+            
+            if (!conversation) {
+                logger.info('Creant nova conversa amb ID proporcionat', { conversationId });
+                conversation = await Conversation.create({ id: conversationId });
+            }
+        } else {
+            logger.info('Creant nova conversa sense ID específic');
+            conversation = await Conversation.create();
+        }
+
+        // Crear el prompt per a l'anàlisi de sentiment
+        const prompt = `Analitza el sentiment del següent text. Conclou si és un text negatiu, neutral o positiu:\n\n${text.trim()}"`;
+
+        // Gestió de streaming vs no-streaming
+        if (stream) {
+            await handleStreamingResponse(req, res, conversation, prompt, model);
+        } else {
+            await handleNormalResponse(req, res, conversation, prompt, model);
+        }
+    } catch (error) {
+        logger.error('Error en el procés de registre de prompt', {
+            error: error.message,
+            stack: error.stack
+        });
+        next(error);
+    }
+};
+
 /**
  * Gestiona la resposta en mode streaming
  * @private
@@ -389,5 +453,6 @@ const getConversation = async (req, res, next) => {
 module.exports = {
     registerPrompt,
     getConversation,
-    listOllamaModels
+    listOllamaModels,
+    sentimentAnalysis
 };

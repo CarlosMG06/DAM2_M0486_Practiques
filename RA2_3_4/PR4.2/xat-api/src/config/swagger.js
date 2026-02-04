@@ -89,6 +89,31 @@ const swaggerOptions = {
                         }
                     }
                 },
+                SentimentAnalysisRequest: {
+                    type: 'object',
+                    required: ['text'],
+                    properties: {
+                        conversationId: {
+                            type: 'string',
+                            format: 'uuid',
+                            description: 'ID de conversa existent (opcional)'
+                        },
+                        text: {
+                            type: 'string',
+                            minLength: 1,
+                            maxLength: 2000,
+                            description: 'Text que es vol analitzar'
+                        },
+                        model: {
+                            type: 'string',
+                            default: 'qwen2.5vl:7b'
+                        },
+                        stream: {
+                            type: 'boolean',
+                            default: false
+                        }
+                    }
+                },
                 PromptResponse: {
                     type: 'object',
                     properties: {

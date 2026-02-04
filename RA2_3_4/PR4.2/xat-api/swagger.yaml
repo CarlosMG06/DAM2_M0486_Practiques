@@ -62,6 +62,26 @@ components:
                 stream:
                     type: boolean
                     default: false
+        SentimentAnalysisRequest:
+            type: object
+            required:
+                - text
+            properties:
+                conversationId:
+                    type: string
+                    format: uuid
+                    description: 'ID de conversa existent (opcional)'
+                text:
+                    type: string
+                    minLength: 1
+                    maxLength: 2000
+                    description: 'Text que es vol analitzar'
+                model:
+                    type: string
+                    default: 'qwen2.5vl:7b'
+                stream:
+                    type: boolean
+                    default: false
         PromptResponse:
             type: object
             properties:
@@ -215,5 +235,38 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ModelsList'
+                '500':
+                    $ref: '#/components/responses/ServerError'
+    /api/chat/sentiment-analysis:
+        post:
+            summary: 'Analitzar el sentiment d''un text'
+            tags:
+                - Prompts
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/SentimentAnalysisRequest'
+                        examples:
+                            nova_conversa:
+                                value:
+                                    text: 'Estic molt content per aquesta noticia!'
+                                    model: 'qwen2.5vl:7b'
+                            conversa_existent:
+                                value:
+                                    conversationId: 550e8400-e29b-41d4-a716-446655440000
+                                    text: 'Aquesta situació em sembla molt preocupant.'
+            responses:
+                '201':
+                    description: 'Text analitzat correctament'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PromptResponse'
+                '400':
+                    $ref: '#/components/responses/BadRequest'
+                '404':
+                    $ref: '#/components/responses/NotFound'
                 '500':
                     $ref: '#/components/responses/ServerError'

@@ -34,24 +34,41 @@ async function queryOllama(base64Image, prompt) {
         console.log('Enviant petició a Ollama...');
         console.log(`URL: ${OLLAMA_URL}/generate`);
         console.log('Model:', OLLAMA_MODEL);
-        
-        const response = await fetch(`${OLLAMA_URL}/generate`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(requestBody)
-        });
+
+        // Timeout per prevenció de bloquejos llargs 
+        const TIMEOUT_MS = 150000; // 150 segundos
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), TIMEOUT_MS);
+
+        let response;
+        try {
+            response = await fetch(`${OLLAMA_URL}/generate`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestBody),
+                signal: controller.signal
+            });
+        } catch (err) {
+            if (err.name === 'AbortError') {
+                throw new Error(`Timeout: la petició a Ollama ha superat ${TIMEOUT_MS / 1000} segons.`);
+            } else {
+                throw err;
+            }
+        } finally {
+            clearTimeout(timeout);
+        }
 
         if (!response.ok) {
             throw new Error(`Error HTTP: ${response.status} ${response.statusText}`);
         }
 
         const data = await response.json();
-        
+
         // Depuració de la resposta
         console.log('Resposta completa d\'Ollama:', JSON.stringify(data, null, 2));
-        
+
         // Verificar si tenim una resposta vàlida
         if (!data || !data.response) {
             throw new Error('La resposta d\'Ollama no té el format esperat');
@@ -116,6 +133,8 @@ async function main() {
             // Obtenim la llista de tots els fitxers dins del directori de l'animal
             const imageFiles = await fs.readdir(animalDirPath);
 
+            const analyses = []; // Array per guardar les anàlisis de cada imatge d'aquest animal
+
             // Iterem per cada fitxer dins del directori de l'animal
             for (const imageFile of imageFiles) {
                 // Construïm la ruta completa al fitxer d'imatge
@@ -168,7 +187,7 @@ nom_comu, nom_cientific, taxonomia {classe, ordre, familia},
 habitat {tipus, regio_geografica, climes}, dieta {tipus, aliments_principals},
 caracteristiques_fisiques {mida {altura_mitjana_cm, pes_mitja_kg}, colors_predominants, trets_distintius},
 estat_conservacio {classificacio_IUCN, amenaces_principals}.
-NO incloguis cap altre text addicional dins la teva resposta.` // Ni '\`\`\`json ... \`\`\`' ni altres caràcters. Només les claus interpretables com a JSON.`;
+NO incloguis cap altre text addicional dins la teva resposta. ` // Ni '\`\`\`json ... \`\`\`' ni altres caràcters. Només les claus interpretables com a JSON.`;
                     console.log('Prompt:', prompt);
                     
                     // Fem la petició a Ollama amb la imatge i el prompt
@@ -178,14 +197,25 @@ NO incloguis cap altre text addicional dins la teva resposta.` // Ni '\`\`\`json
                     if (response) {
                         console.log(`\nResposta d'Ollama per ${imageFile}:`);
                         console.log(response);
-                        try {
-                            const parsedResponse = JSON.parse(response);
+                        
+                        // Filtre per eliminar ```json i ```
+                        let cleanResponse = response.trim();
+                        if (cleanResponse.startsWith('```json')) {
+                            cleanResponse = cleanResponse.replace(/^```json/, '').trim();
+                        } else if (cleanResponse.startsWith('```')) {
+                            cleanResponse = cleanResponse.replace(/^```/, '').trim();
+                        }
+                        if (cleanResponse.endsWith('```')) {
+                            cleanResponse = cleanResponse.replace(/```$/, '').trim();
+                        }
 
-                            // Guardem la resposta en exercici3_resposta.json
-                            const outputFilePath = path.join(__dirname, process.env.DATA_PATH, OUTPUT_FILE_NAME);
-                            const resultString = JSON.stringify(parsedResponse, null, 2);
-                            fs.writeFileSync(outputFilePath, resultString);
-                            console.log(`Resposta guardada a ${outputFilePath}`);
+                        try {
+                            const parsedResponse = JSON.parse(cleanResponse);
+                            // Afegim l'anàlisi al array d'anàlisis amb el nom del fitxer d'imatge
+                            analyses.push({
+                                imatge: {nom_fitxer: imageFile},
+                                analisi: parsedResponse
+                            });
                         } catch (e) {
                             console.error('Error en parsejar la resposta JSON:', e.message);
                         }
@@ -197,6 +227,13 @@ NO incloguis cap altre text addicional dins la teva resposta.` // Ni '\`\`\`json
                     console.log('------------------------');
                 }
             }
+            // Guardar els resultats en JSON
+            const outputFilePath = path.join(__dirname, process.env.DATA_PATH, OUTPUT_FILE_NAME);
+            const outputString = JSON.stringify({analisis: analyses}, null, 2);
+
+            fs.writeFile(outputFilePath, outputString);
+            console.log(`Anàlisis guardats a ${outputFilePath}`);
+
             console.log(`\nATUREM L'EXECUCIÓ DESPRÉS D'ITERAR EL CONTINGUT DEL PRIMER DIRECTORI`);
             break; // ATUREM L'EXECUCIÓ DESPRÉS D'ITERAR EL CONTINGUT DEL PRIMER DIRECTORI
         }

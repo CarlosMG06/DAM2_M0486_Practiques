@@ -1,0 +1,62 @@
+{
+    "analisis": [
+        {
+            "imatge":  {
+                "nom_fitxer": "03d7fc0888.jpg"
+            },
+            "analisi": {
+                "nom_comu": "Antílope de Przewalski",
+                "nom_cientific": "Przewalski's horse",
+                "taxonomia": {
+                    "classe": "mamífer",
+                    "ordre": "perissodactyla",
+                    "familia": "equidae"
+                },
+                "habitat": {
+                    "tipus": [
+                        "prat",
+                        "desert"
+                    ],
+                    "regio_geografica": [
+                        "Mongòlia",
+                        "Xinjiang, Xina"
+                    ],
+                    "climes": [
+                        "semiàrid",
+                        "subàrid"
+                    ]
+                },
+                "dieta": {
+                    "tipus": "herbívor",
+                    "aliments_principals": [
+                        "herba",
+                        "pastures"
+                    ]
+                },
+                "caracteristiques_fisiques": {
+                    "mida": {
+                        "altura_mitjana_cm": 120,
+                        "pes_mitja_kg": 300
+                    },
+                    "colors_predominants": [
+                        "crema",
+                        "negre"
+                    ],
+                    "trets_distintius": [
+                        "corns curts",
+                        "ulls grans",
+                        "cua curta"
+                    ]
+                },
+                "estat_conservacio": {
+                    "classificacio_IUCN": "en perill",
+                    "amenaces_principals": [
+                        "caça",
+                        "perduda d'hàbitat",
+                        "infeccions"
+                    ]
+                }
+            }
+        }
+    ]
+}

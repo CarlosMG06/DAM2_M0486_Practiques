@@ -1,6 +1,8 @@
 package com.project.dao;
 
 import com.project.domain.*;
+
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -65,6 +67,21 @@ public class Manager {
         } catch (Throwable ex) {
             System.err.println("Error inicialitzant Hibernate: " + ex);
             throw new ExceptionInInitializerError(ex);
+        }
+    }
+
+    // Executa una consulta SQL nativa d'actualització (INSERT, UPDATE, DELETE).
+    public static void queryUpdate(String queryString) {
+        try (Session session = factory.openSession()) {
+            Transaction tx = session.beginTransaction();
+            try {
+                session.createNativeQuery(queryString, Void.class)
+                       .executeUpdate();
+                tx.commit();
+            } catch (HibernateException e) {
+                if (tx != null && tx.isActive()) tx.rollback();
+                throw e;
+            }
         }
     }
 

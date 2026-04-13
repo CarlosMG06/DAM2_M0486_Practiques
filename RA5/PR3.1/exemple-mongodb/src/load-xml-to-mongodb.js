@@ -75,7 +75,10 @@ function processYoutuberData(data) {
 async function loadDataToMongoDB() {
   // Configuració de la connexió a MongoDB
   const uri = process.env.MONGODB_URI || 'mongodb://root:password@localhost:27017/';
-  const client = new MongoClient(uri);
+  const client = new MongoClient(uri, {
+    authSource: 'admin',
+    authMechanism: 'SCRAM-SHA-256'
+  });
   
   try {
     await client.connect();

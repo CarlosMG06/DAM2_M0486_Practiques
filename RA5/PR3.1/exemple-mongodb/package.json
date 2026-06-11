@@ -15,6 +15,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "crypto": "^1.0.1",
     "dotenv": "^16.0.3",
     "exemple-mongodb": "file:",
     "mongodb": "^7.1.1",

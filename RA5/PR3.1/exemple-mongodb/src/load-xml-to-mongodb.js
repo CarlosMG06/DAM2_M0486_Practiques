@@ -1,3 +1,8 @@
+const { webcrypto } = require('crypto');
+if (!globalThis.crypto) {
+  globalThis.crypto = webcrypto;
+}
+
 const fs = require('fs');
 const path = require('path');
 const { MongoClient } = require('mongodb');
@@ -74,11 +79,8 @@ function processYoutuberData(data) {
 // Funció principal per carregar les dades a MongoDB
 async function loadDataToMongoDB() {
   // Configuració de la connexió a MongoDB
-  const uri = process.env.MONGODB_URI || 'mongodb://root:password@localhost:27017/';
-  const client = new MongoClient(uri, {
-    authSource: 'admin',
-    authMechanism: 'SCRAM-SHA-256'
-  });
+  const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/';
+  const client = new MongoClient(uri);
   
   try {
     await client.connect();

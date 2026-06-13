@@ -1,3 +1,8 @@
+const { webcrypto } = require('crypto');
+if (!globalThis.crypto) {
+  globalThis.crypto = webcrypto;
+}
+
 // Importem la versió de promeses de 'fs' per no bloquejar l'Event Loop
 const fs = require('fs').promises; 
 const path = require('path');
@@ -82,7 +87,7 @@ function processYoutuberData(data) {
  */
 async function loadDataToMongoDB() {
   // 7. Connexió a la base de dades. Idealment, mai posar credencials hardcoded en producció.
-  const uri = process.env.MONGODB_URI || 'mongodb://root:password@localhost:27017/';
+  const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/';
   const client = new MongoClient(uri);
   
   try {

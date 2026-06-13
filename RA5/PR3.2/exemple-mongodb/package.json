@@ -5,6 +5,8 @@
   "main": "src/load-xml-to-mongodb.js",
   "scripts": {
     "start": "node src/load-xml-to-mongodb.js",
+    "server": "node src/pr32_websocket_link/websocket_server.js",
+    "client": "node src/pr32_websocket_link/websocket_client.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -15,9 +17,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^16.0.3",
+    "dotenv": "^16.6.1",
     "exemple-mongodb": "file:",
-    "mongodb": "^5.1.0",
+    "mongodb": "^5.9.2",
+    "uuid": "^11.1.1",
+    "winston": "^3.19.0",
+    "ws": "^8.21.0",
     "xml2js": "^0.5.0"
   }
 }

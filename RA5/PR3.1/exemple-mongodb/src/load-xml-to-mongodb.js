@@ -9,6 +9,8 @@ const { MongoClient } = require('mongodb');
 const xml2js = require('xml2js');
 require('dotenv').config();
 
+const logger = require('./logger');
+
 // Ruta al fitxer XML
 const xmlFilePath = path.join(__dirname, '../../data/youtubers.xml');
 
@@ -89,35 +91,35 @@ async function loadDataToMongoDB(
   
   try {
     await client.connect();
-    console.log('Connectat a MongoDB');
+    logger.info('Connectat a MongoDB');
     
     const database = client.db(dbName);
     const collection = database.collection(collectionName);
     
     // Llegir i analitzar el fitxer XML
-    console.log('Llegint el fitxer XML...');
+    logger.info('Llegint el fitxer XML...');
     const xmlData = await parseXMLFile(xmlPath);
     
     // Processar les dades
-    console.log('Processant les dades...');
+    logger.info('Processant les dades...');
     const youtubers = processData(xmlData);
     
     // Eliminar dades existents (opcional)
-    console.log('Eliminant dades existents...');
+    logger.info('Eliminant dades existents...');
     await collection.deleteMany({});
     
     // Inserir les noves dades
-    console.log('Inserint dades a MongoDB...');
+    logger.info('Inserint dades a MongoDB...');
     const result = await collection.insertMany(youtubers);
     
-    console.log(`${result.insertedCount} documents inserits correctament.`);
-    console.log('Dades carregades amb èxit!');
+    logger.info(`${result.insertedCount} documents inserits correctament.`);
+    logger.info('Dades carregades amb èxit!');
     
   } catch (error) {
     console.error('Error carregant les dades a MongoDB:', error);
   } finally {
     await client.close();
-    console.log('Connexió a MongoDB tancada');
+    logger.info('Connexió a MongoDB tancada');
   }
 }
 

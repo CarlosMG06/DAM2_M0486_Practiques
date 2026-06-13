@@ -77,7 +77,12 @@ function processYoutuberData(data) {
 }
 
 // Funció principal per carregar les dades a MongoDB
-async function loadDataToMongoDB() {
+async function loadDataToMongoDB(
+    xmlPath = xmlFilePath, 
+    processData = processYoutuberData, 
+    dbName = 'youtubers_db',
+    collectionName = 'youtubers'
+  ) {
   // Configuració de la connexió a MongoDB
   const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/';
   const client = new MongoClient(uri);
@@ -86,16 +91,16 @@ async function loadDataToMongoDB() {
     await client.connect();
     console.log('Connectat a MongoDB');
     
-    const database = client.db('youtubers_db');
-    const collection = database.collection('youtubers');
+    const database = client.db(dbName);
+    const collection = database.collection(collectionName);
     
     // Llegir i analitzar el fitxer XML
     console.log('Llegint el fitxer XML...');
-    const xmlData = await parseXMLFile(xmlFilePath);
+    const xmlData = await parseXMLFile(xmlPath);
     
     // Processar les dades
     console.log('Processant les dades...');
-    const youtubers = processYoutuberData(xmlData);
+    const youtubers = processData(xmlData);
     
     // Eliminar dades existents (opcional)
     console.log('Eliminant dades existents...');
@@ -118,3 +123,5 @@ async function loadDataToMongoDB() {
 
 // Executar la funció principal
 loadDataToMongoDB();
+
+module.exports = {loadDataToMongoDB}
